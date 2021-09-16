@@ -13,10 +13,10 @@
 			<a-col :span="24" class="mb-24">
 
 				<!-- Authors Table Card -->
-				<CardAuthorTable
+				<CardItemTable
 					:data="table1Data"
 					:columns="table1Columns"
-				></CardAuthorTable>
+				></CardItemTable>
 				<!-- / Authors Table Card -->
 
 			</a-col>
@@ -31,7 +31,7 @@
 <script>
 
 	// "Authors" table component.
-	import CardAuthorTable from '../components/Cards/CardAuthorTable' ;
+	import CardItemTable from '../components/Cards/CardItemSuperTable' ;
 
 	// "Projects" table component.
 	import CardProjectTable2 from '../components/Cards/CardProjectTable2' ;
@@ -156,7 +156,7 @@
 	
 	export default ({
 		components: {
-			CardAuthorTable,
+			CardItemTable,
 		},
 		data() {
 			return {

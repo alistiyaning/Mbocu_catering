@@ -13,10 +13,10 @@
 			<a-col :span="24" class="mb-24">
 
 				<!-- Authors Table Card -->
-				<CardAuthorTable
+				<CardItemTable
 					:data="table1Data"
 					:columns="table1Columns"
-				></CardAuthorTable>
+				></CardItemTable>
 				<!-- / Authors Table Card -->
 
 			</a-col>
@@ -25,24 +25,6 @@
 		</a-row>
 		<!-- / Authors Table -->
 
-		<!-- Projects Table -->
-		<a-row :gutter="24" type="flex">
-
-			<!-- Projects Table Column -->
-			<a-col :span="24" class="mb-24">
-
-				<!-- Projects Table Column -->
-				<CardProjectTable2
-					:data="table2Data"
-					:columns="table2Columns"
-				></CardProjectTable2>
-				<!-- / Projects Table Column -->
-
-			</a-col>
-			<!-- / Projects Table Column -->
-
-		</a-row>
-		<!-- / Projects Table -->
 
 	</div>
 </template>
@@ -50,7 +32,7 @@
 <script>
 
 	// "Authors" table component.
-	import CardAuthorTable from '../components/Cards/CardAuthorTable' ;
+	import CardItemTable from '../components/Cards/CardItemMerchantTable' ;
 
 	// "Projects" table component.
 	import CardProjectTable2 from '../components/Cards/CardProjectTable2' ;
@@ -277,8 +259,7 @@
 
 	export default ({
 		components: {
-			CardAuthorTable,
-			CardProjectTable2,
+			CardItemTable,
 		},
 		data() {
 			return {

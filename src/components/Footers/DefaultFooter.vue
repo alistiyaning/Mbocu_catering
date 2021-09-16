@@ -56,8 +56,8 @@
 		
 		<!-- Copyright Notice -->
 		<p class="copyright">
-			Copyright © 2021 Muse
-			by <a href="https://creative-tim.com">Creative Tim</a>.
+			Copyright © 2021 Mbocu Apps
+			by <a href="https://creative-tim.com">Cendrawasih Tim</a>.
 		</p>
 		<!-- / Copyright Notice -->
 

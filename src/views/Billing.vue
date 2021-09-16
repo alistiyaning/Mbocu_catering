@@ -187,7 +187,7 @@
 			status: 'success',
 		},
 		{
-			title: "Creative Tim",
+			title: "Cendrawasih Tim",
 			datetime: "26 March 2021, at 07:30 AM",
 			amount: "2,400",
 			type: 1,
