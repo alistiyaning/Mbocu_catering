@@ -53,7 +53,8 @@
 				</a-form>
 				<!-- / Sign In Form -->
 
-				<p class="font-semibold text-muted">Don't have an account? <router-link to="/sign-in" class="font-bold text-dark">Sign Up</router-link></p>
+				<p class="font-semibold text-muted">Don't have an account?
+					<router-link to="/sign-up" class="font-bold text-dark">Sign Up</router-link></p>
 			</a-col>
 			<!-- / Sign In Form Column -->
 

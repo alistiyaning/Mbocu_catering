@@ -8,7 +8,7 @@
 	<a-row type="flex" :gutter="[24,24]" justify="space-around" align="middle">
 		<!-- Sign Up Image And Headings -->
 		<a-col :span="24" :md="12" :lg="{span: 12, offset: 0}" :xl="{span: 6, offset: 2}" class="col-form">
-				<h1 class="mb-5">Sign in</h1>
+				<h1 class="mb-5">Sign UP</h1>
 				<p class="text-lg">Use these awesome forms to login or create new account in your project for free.</p>
 		<!-- / Sign Up Image And Headings -->
 		
@@ -53,7 +53,7 @@
 				</a-form-item>
 
 				<a-form-item class="mb-5">
-					<label >Password</label>
+					<label >password</label>
 					<a-input
 						label="Password"
 						type="password"
