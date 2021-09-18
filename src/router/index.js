@@ -30,16 +30,16 @@ let routes = [
 		component: () => import('../views/Layout.vue'),
 	},
 	{
-		path: '/tables',
-		name: 'Tables',
+		path: '/super_item',
+		name: 'Item',
 		layout: "dashboard",
-		component: () => import('../views/Tables.vue'),
+		component: () => import('../views/SuperItem.vue'),
 	},
 	{
-		path: '/marchant_Item',
-		name: 'Marchant Item',
+		path: '/merchant_item',
+		name: 'Item',
 		layout: "dashboard",
-		component: () => import('../views/marchant_Item.vue'),
+		component: () => import('../views/MerchantItem.vue'),
 	},
 	{
 		path: '/billing',
