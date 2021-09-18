@@ -6,23 +6,7 @@
 <template>
 	<div>
 
-		<!-- Authors Table -->
-		<a-row :gutter="24" type="flex">
-
-			<!-- Authors Table Column -->
-			<a-col :span="24" class="mb-24">
-
-				<!-- Authors Table Card -->
-				<CardAuthorTable
-					:data="table1Data"
-					:columns="table1Columns"
-				></CardAuthorTable>
-				<!-- / Authors Table Card -->
-
-			</a-col>
-			<!-- / Authors Table Column -->
-
-		</a-row>
+		
 		<!-- / Authors Table -->
 
 		<!-- Projects Table -->
@@ -175,18 +159,18 @@
 	// "Projects" table list of columns and their properties.
 	const table2Columns = [
 		{
-			title: 'COMPANIES',
+			title: 'NO',
 			dataIndex: 'company',
 			scopedSlots: { customRender: 'company' },
 			width: 300,
 		},
 		{
-			title: 'BUDGET',
+			title: 'ITEM',
 			dataIndex: 'budget',
 			class: 'font-semibold text-muted',
 		},
 		{
-			title: 'STATUS',
+			title: 'NAME',
 			dataIndex: 'status',
 			class: 'font-semibold text-muted text-sm',
 		},
@@ -196,7 +180,7 @@
 			dataIndex: 'completion',
 		},
 		{
-			title: '',
+			title: 'ACTION',
 			scopedSlots: { customRender: 'editBtn' },
 			width: 50,
 		},
