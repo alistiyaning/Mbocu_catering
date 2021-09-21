@@ -13,9 +13,6 @@
 			{{ content }}
 		</p>
 		<a-row type="flex" :gutter="6" class="card-footer" align="middle">
-			<a-col :span="12">
-				<a-button size="small">VIEW PROJECT</a-button>
-			</a-col>
 			<a-col :span="12" class="text-right">
 				<a-space :size="-12" class="avatar-chips">
 					<a-avatar  size="small" v-for="(img, index) in team" :key="index" :src="img" />

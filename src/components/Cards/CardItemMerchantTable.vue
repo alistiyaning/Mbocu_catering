@@ -223,6 +223,7 @@ const data = [
   {
     key: '1',
     name: 'John Brown',
+    email:'hohn@gmail.com',
     age: 32,
     address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
   },

@@ -24,73 +24,90 @@
 
 		<!-- Charts -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :lg="10" class="mb-24">
-
-				<!-- Active Users Card -->
-				<CardBarChart></CardBarChart>
-				<!-- Active Users Card -->
-
-			</a-col>
-			<a-col :span="24" :lg="14" class="mb-24">
-				
-				<!-- Sales Overview Card -->
-				<CardLineChart></CardLineChart>
-				<!-- / Sales Overview Card -->
-
-			</a-col>
+			
 		</a-row>
 		<!-- / Charts -->
 
 		<!-- Table & Timeline -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<!-- Table -->
-			<a-col :span="24" :lg="16" class="mb-24">
-				
-				<!-- Projects Table Card -->
-				<CardProjectTable
-					:data="tableData"
-					:columns="tableColumns"
-				></CardProjectTable>
-				<!-- / Projects Table Card -->
-				
-			</a-col>
-			<!-- / Table -->
 
-			<!-- Timeline -->
-			<a-col :span="24" :lg="8" class="mb-24">
-
-				<!-- Orders History Timeline Card -->
-				<CardOrderHistory></CardOrderHistory>
-				<!-- / Orders History Timeline Card -->
-
-			</a-col>
-			<!-- / Timeline -->
 		</a-row>
 		<!-- / Table & Timeline -->
-
+		
 		<!-- Cards -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :xl="14" class="mb-24">
-
+			
+			<a-col :span="24" :xl="24" class="mb-24">
 				<!-- Information Card 1 -->
-				<CardInfo></CardInfo>
-				<!-- / Information Card 1 -->
-
-			</a-col>
-			<a-col :span="24" :xl="10" class="mb-24">
-
-				<!-- Information Card 2 -->
 				<CardInfo2></CardInfo2>
-				<!-- / Information Card 2 -->
-
+				<!-- / Information Card 1 -->
 			</a-col>
 		</a-row>
 		<!-- / Cards -->
+		<!-- Projects Card  for you-->
+		<a-card :bordered="false" class="header-solid h-full mb-24" :bodyStyle="{paddingTop: '14px'}">
+			<template #title>
+				<h6 class="font-semibold">For You</h6>				
+			</template>
+
+			<a-row type="flex" :gutter="[24,24]" align="stretch">
+
+				<!-- Project Column -->
+				<a-col :span="24" :md="12" :xl="6" v-for="(project, index) in projects" :key="index">
+					<CardProject
+						:id="project.id"
+						:title="project.title"
+						:content="project.content"
+						:cover="project.cover"
+						:team="project.team"
+					></CardProject>
+				</a-col>
+				<!-- / Project Column -->
+
+				<!-- Project Column -->
+				<a-col :span="24" :md="12" :xl="6">
+				</a-col>
+				<!-- / Project Column -->
+
+			</a-row>
+		</a-card>
+		<!-- / end Projects Card for you-->
+
+		<!-- Projects Card best seller -->
+			<a-card :bordered="false" class="header-solid h-full mb-24" :bodyStyle="{paddingTop: '14px'}">
+			<template #title>
+				<h6 class="font-semibold">Best Seller</h6>				
+			</template>
+
+			<a-row type="flex" :gutter="[24,24]" align="stretch">
+
+				<!-- Project Column -->
+				<a-col :span="24" :md="12" :xl="6" v-for="(project, index) in projects" :key="index">
+					<CardProject
+						:id="project.id"
+						:title="project.title"
+						:content="project.content"
+						:cover="project.cover"
+						:team="project.team"
+					></CardProject>
+				</a-col>
+				<!-- / Project Column -->
+
+				<!-- Project Column -->
+				<a-col :span="24" :md="12" :xl="6">
+				</a-col>
+				<!-- / Project Column -->
+
+			</a-row>
+		</a-card>
+		<!-- end Projects card best seller  -->
 
 	</div>
 </template>
 
 <script>
+	//card item 
+	import CardProject from "../components/Cards/CardProject"
 
 	// Bar chart for "Active Users" card.
 	import CardBarChart from '../components/Cards/CardBarChart' ;
@@ -263,6 +280,38 @@
 		},
 	];
 
+		const projects = [
+		{
+			id: 1,
+			title: "Dapur 88",
+			content: "Mulai dari Rp.30.000",
+			content: "Lunch Time ~ Personal",
+			cover: "images/Banner1.png",
+		},
+		{
+			id: 2,
+			title: "Dapur 88",
+			content: "Mulai dari Rp.30.000",
+			content: "Lunch Time ~ Personal",
+			cover: "images/banner.png",
+		},
+		{
+			id: 3,
+			title: "Dapur 88",
+			content: "Mulai dari Rp.30.000",
+			content: "Lunch Time ~ Personal",
+			cover: "images/banner3.png",
+		},
+		{
+			id: 4,
+			title: "Dapur 88",
+			content: "Mulai dari Rp.30.000",
+			content: "Lunch Time ~ Personal",
+			cover: "images/banner4.png",
+		},
+		
+	] ;
+
 	export default ({
 		components: {
 			CardBarChart,
@@ -272,6 +321,7 @@
 			CardOrderHistory,
 			CardInfo,
 			CardInfo2,
+			CardProject,
 		},
 		data() {
 			return {
@@ -284,6 +334,9 @@
 
 				// Counter Widgets Stats
 				stats,
+
+				// Project cards data
+				projects,
 			}
 		},
 	})
