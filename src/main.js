@@ -19,12 +19,15 @@ import DefaultLayout from './layouts/Default.vue'
 import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
+import axios from 'axios'
 
 // import './plugins/click-away'
 
 import './scss/app.scss';
 
 import vuetify from './plugins/vuetify'
+
+axios.defaults.baseURL = 'https://mbocuapi.herokuapp.com/api/'
 
 Vue.use(Antd);
 

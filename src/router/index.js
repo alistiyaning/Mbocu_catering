@@ -81,6 +81,7 @@ let routes = [
 		name: 'Sign-Up',
 		component: () => import('../views/Sign-Up.vue'),
 	},
+	
 ]
 
 // Adding layout property from each route to the meta
@@ -100,7 +101,7 @@ function addLayoutToRoute( route, parentLayout = "default" )
 routes = routes.map( ( route ) => addLayoutToRoute( route ) ) ;
 
 const router = new VueRouter({
-	mode: 'hash',
+	mode: 'history',
 	base: process.env.BASE_URL,
 	routes,
 	scrollBehavior (to, from, savedPosition) {
@@ -119,3 +120,4 @@ const router = new VueRouter({
 })
 
 export default router
+

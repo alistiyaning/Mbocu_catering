@@ -41,8 +41,10 @@
         v-bind="formItemLayout"
         @submit="handleSubmitAdd"
       >
-        <a-form-item label="Icon" extra="Uploud new icon">
+        <a-form-item label="Icon" extra="Upload new icon">
+          <img :src="previewIcon" v-if="previewIcon" width="200"/>
           <a-upload
+            
             v-decorator="[
               'upload',
               {
@@ -192,6 +194,14 @@ export default {
         class: 'test',
       });
     },
+
+    // uploud function
+    upload: function(event){
+      const namaIcon = event.target.files[0].name
+      this.data.Icon=namaIcon
+      this.previewIcon =URL.createObjectURL(event.target.files[0])
+    },
+  // end uploud function
     showEdit(){
       this.visibleEdit = true;
       console.log('edit click');
@@ -235,6 +245,7 @@ export default {
       data,
       columns,
     };
+    previewIcon:""
   },
 };
 </script>

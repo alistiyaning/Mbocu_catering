@@ -14,7 +14,7 @@
 </template>
 
 <script>
-
+	
 	export default ({
 		computed: {
 			// Sets components name based on current route's specified layout, defaults to
