@@ -1,7 +1,9 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
 
 let routes = [
 	{
@@ -81,7 +83,7 @@ let routes = [
 		name: 'Sign-Up',
 		component: () => import('../views/Sign-Up.vue'),
 	},
-	
+
 ]
 
 // Adding layout property from each route to the meta
@@ -90,7 +92,7 @@ function addLayoutToRoute( route, parentLayout = "default" )
 {
 	route.meta = route.meta || {} ;
 	route.meta.layout = route.layout || parentLayout ;
-	
+
 	if( route.children )
 	{
 		route.children = route.children.map( ( childRoute ) => addLayoutToRoute( childRoute, route.meta.layout ) ) ;

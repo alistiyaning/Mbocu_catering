@@ -100,16 +100,14 @@ export default {
         email: this.form.email,
         password: this.form.password,
       };
-      try {
-        const response = axios.post("login", data);
-        if (response.status >= 200 && response.status < 400) {
-          this.$router.push("dashboard");
-        } else if (response.status >= 400) {
-          console.log(response.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      // console.log(data)
+      this.$store.dispatch('login', data)
+      .then(response=>{
+        console.log(response)
+        this.$router.push({'name': 'Dashboard'})
+      }).catch(error=>{
+        this.errors=error.response.data.errors
+      })
     },
   },
 };
