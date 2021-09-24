@@ -1,5 +1,5 @@
-<!-- 
-	This is the dashboard page, it uses the dashboard layout in: 
+<!--
+	This is the dashboard page, it uses the dashboard layout in:
 	"./layouts/Dashboard.vue" .
  -->
 
@@ -24,7 +24,7 @@
 
 		<!-- Charts -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			
+
 		</a-row>
 		<!-- / Charts -->
 
@@ -33,10 +33,10 @@
 
 		</a-row>
 		<!-- / Table & Timeline -->
-		
+
 		<!-- Cards -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			
+
 			<a-col :span="24" :xl="24" class="mb-24">
 				<!-- Information Card 1 -->
 				<CardInfo2></CardInfo2>
@@ -47,7 +47,7 @@
 		<!-- Projects Card  for you-->
 		<a-card :bordered="false" class="header-solid h-full mb-24" :bodyStyle="{paddingTop: '14px'}">
 			<template #title>
-				<h6 class="font-semibold">For You</h6>				
+				<h6 class="font-semibold">For You</h6>
 			</template>
 
 			<a-row type="flex" :gutter="[24,24]" align="stretch">
@@ -76,7 +76,7 @@
 		<!-- Projects Card best seller -->
 			<a-card :bordered="false" class="header-solid h-full mb-24" :bodyStyle="{paddingTop: '14px'}">
 			<template #title>
-				<h6 class="font-semibold">Best Seller</h6>				
+				<h6 class="font-semibold">Best Seller</h6>
 			</template>
 
 			<a-row type="flex" :gutter="[24,24]" align="stretch">
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-	//card item 
+	//card item
 	import CardProject from "../components/Cards/CardProject"
 
 	// Bar chart for "Active Users" card.
@@ -309,7 +309,7 @@
 			content: "Lunch Time ~ Personal",
 			cover: "images/banner4.png",
 		},
-		
+
 	] ;
 
 	export default ({

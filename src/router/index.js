@@ -2,124 +2,162 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 
+import guest from './middleware/guest'
+import auth from './middleware/auth'
+
 Vue.use(VueRouter)
 Vue.use(Vuex)
 
 let routes = [
-	{
-		// will match everything
-		path: '*',
-		component: () => import('../views/404.vue'),
-	},
-	{
-		path: '/',
-		name: 'Home',
-		redirect: '/dashboard',
-	},
-	{
-		path: '/dashboard',
-		name: 'Dashboard',
-		layout: "dashboard",
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
-	},
-	{
-		path: '/layout',
-		name: 'Layout',
-		layout: "dashboard",
-		component: () => import('../views/Layout.vue'),
-	},
-	{
-		path: '/super_item',
-		name: 'Item',
-		layout: "dashboard",
-		component: () => import('../views/SuperItem.vue'),
-	},
-	{
-		path: '/merchant_item',
-		name: 'Item',
-		layout: "dashboard",
-		component: () => import('../views/MerchantItem.vue'),
-	},
-	{
-		path: '/super_marchant',
-		name: 'Marchant',
-		layout: "dashboard",
-		component: () => import('../views/SuperMarchant.vue'),
-	},
-	{
-		path: '/billing',
-		name: 'Billing',
-		layout: "dashboard",
-		component: () => import('../views/Billing.vue'),
-	},
-	{
-		path: '/rtl',
-		name: 'RTL',
-		layout: "dashboard-rtl",
-		meta: {
-			layoutClass: 'dashboard-rtl',
-		},
-		component: () => import('../views/RTL.vue'),
-	},
-	{
-		path: '/Profile',
-		name: 'Profile',
-		layout: "dashboard",
-		meta: {
-			layoutClass: 'layout-profile',
-		},
-		component: () => import('../views/Profile.vue'),
-	},
-	{
-		path: '/sign-in',
-		name: 'Sign-In',
-		component: () => import('../views/Sign-In.vue'),
-	},
-	{
-		path: '/sign-up',
-		name: 'Sign-Up',
-		component: () => import('../views/Sign-Up.vue'),
-	},
+  {
+    // will match everything
+    path: '*',
+    component: () => import('../views/404.vue'),
+  },
+  {
+    path: '/',
+    name: 'Home',
+    redirect: '/dashboard',
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    layout: "dashboard",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    meta: {
+      middleware: [auth]
+    },
+    component: () => import('../views/Dashboard.vue'),
+  },
+  {
+    path: '/layout',
+    name: 'Layout',
+    layout: "dashboard",
+    component: () => import('../views/Layout.vue'),
+  },
+  {
+    path: '/super_item',
+    name: 'Item',
+    layout: "dashboard",
+    component: () => import('../views/SuperItem.vue'),
+  },
+  {
+    path: '/merchant_item',
+    name: 'Item',
+    layout: "dashboard",
+    component: () => import('../views/MerchantItem.vue'),
+  },
+  {
+    path: '/super_marchant',
+    name: 'Marchant',
+    layout: "dashboard",
+    component: () => import('../views/SuperMarchant.vue'),
+  },
+  {
+    path: '/billing',
+    name: 'Billing',
+    layout: "dashboard",
+    component: () => import('../views/Billing.vue'),
+  },
+  {
+    path: '/rtl',
+    name: 'RTL',
+    layout: "dashboard-rtl",
+    meta: {
+      layoutClass: 'dashboard-rtl',
+    },
+    component: () => import('../views/RTL.vue'),
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    layout: "dashboard",
+    meta: {
+      layoutClass: 'layout-profile',
+    },
+    component: () => import('../views/Profile.vue'),
+  },
+  {
+    path: '/sign-in',
+    name: 'Sign-In',
+    component: () => import('../views/Sign-In.vue'),
+    meta: {
+      middleware: [guest]
+    }
+  },
+  {
+    path: '/sign-up',
+    name: 'Sign-Up',
+    component: () => import('../views/Sign-Up.vue'),
+  },
 
 ]
 
 // Adding layout property from each route to the meta
 // object so it can be accessed later.
-function addLayoutToRoute( route, parentLayout = "default" )
-{
-	route.meta = route.meta || {} ;
-	route.meta.layout = route.layout || parentLayout ;
+function addLayoutToRoute(route, parentLayout = "default") {
+  route.meta = route.meta || {};
+  route.meta.layout = route.layout || parentLayout;
 
-	if( route.children )
-	{
-		route.children = route.children.map( ( childRoute ) => addLayoutToRoute( childRoute, route.meta.layout ) ) ;
-	}
-	return route ;
+  if (route.children) {
+    route.children = route.children.map((childRoute) => addLayoutToRoute(childRoute, route.meta.layout));
+  }
+  return route;
 }
 
-routes = routes.map( ( route ) => addLayoutToRoute( route ) ) ;
+routes = routes.map((route) => addLayoutToRoute(route));
 
 const router = new VueRouter({
-	mode: 'history',
-	base: process.env.BASE_URL,
-	routes,
-	scrollBehavior (to, from, savedPosition) {
-		if ( to.hash ) {
-			return {
-				selector: to.hash,
-				behavior: 'smooth',
-			}
-		}
-		return {
-			x: 0,
-			y: 0,
-			behavior: 'smooth',
-		}
-	}
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
+  // scrollBehavior(to, from, savedPosition) {
+  //   if (to.hash) {
+  //     return {
+  //       selector: to.hash,
+  //       behavior: 'smooth',
+  //     }
+  //   }
+  //   return {
+  //     x: 0,
+  //     y: 0,
+  //     behavior: 'smooth',
+  //   }
+  // }
 })
+
+function nextFactory(context, middleware, index) {
+  const subsequentMiddleware = middleware[index];
+  if (!subsequentMiddleware) return context.next;
+
+  return (...parameters) => {
+    context.next(...parameters);
+    const nextMiddleware = nextFactory(context, middleware, index + 1);
+    subsequentMiddleware({ ...context, next: nextMiddleware });
+  };
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+      ? to.meta.middleware
+      : [to.meta.middleware];
+
+    const context = {
+      from,
+      next,
+      router,
+      to,
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
+    console.log(middleware[0])
+    return middleware[0]({ ...context, next: nextMiddleware });
+  }
+
+  return next();
+});
 
 export default router
 
