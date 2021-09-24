@@ -103,7 +103,6 @@ export default {
       // console.log(data)
       this.$store.dispatch('login', data)
       .then(response=>{
-        console.log(response)
         this.$router.push({'name': 'Dashboard'})
       }).catch(error=>{
         this.errors=error.response.data.errors
