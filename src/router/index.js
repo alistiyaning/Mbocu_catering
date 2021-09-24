@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index.js'
 
 Vue.use(VueRouter)
 
@@ -18,10 +19,10 @@ let routes = [
 		path: '/dashboard',
 		name: 'Dashboard',
 		layout: "dashboard",
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
 		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+		meta: {
+			requiresAuth: true,
+		},
 	},
 	{
 		path: '/layout',
@@ -31,36 +32,61 @@ let routes = [
 	},
 	{
 		path: '/super_item',
-		name: 'Item',
+		name: 'Item Super Admin',
 		layout: "dashboard",
 		component: () => import('../views/SuperItem.vue'),
+		meta: {
+			requiresAuth: true,
+			adminAuth: true,
+			merchantAuth: false,
+		},
+	},
+	{
+		path: '/super_user',
+		name: 'User',
+		layout: "dashboard",
+		component: () => import('../views/SuperUser.vue'),
+		meta: {
+			requiresAuth: true,
+			adminAuth: true,
+			merchantAuth: false,
+		},
+	},
+	{
+		path: '/super_merchant',
+		name: 'Merchant Super',
+		layout: "dashboard",
+		component: () => import('../views/SuperMerchant.vue'),
 	},
 	{
 		path: '/merchant_item',
-		name: 'Item',
+		name: 'Item Merchant',
 		layout: "dashboard",
 		component: () => import('../views/MerchantItem.vue'),
-	},
-	{
-		path: '/billing',
-		name: 'Billing',
-		layout: "dashboard",
-		component: () => import('../views/Billing.vue'),
-	},
-	{
-		path: '/rtl',
-		name: 'RTL',
-		layout: "dashboard-rtl",
 		meta: {
-			layoutClass: 'dashboard-rtl',
+			requiresAuth: true,
+			adminAuth: false,
+			merchantAuth: true,
 		},
-		component: () => import('../views/RTL.vue'),
 	},
+	{
+		path: '/merchant_merchant',
+		name: 'Merchant',
+		layout: "dashboard",
+		component: () => import('../views/MerchantMerchant.vue'),
+		meta: {
+			requiresAuth: true,
+			adminAuth: false,
+			merchantAuth: true,
+		},
+	},
+	
 	{
 		path: '/Profile',
 		name: 'Profile',
 		layout: "dashboard",
 		meta: {
+			requiresAuth: true,
 			layoutClass: 'layout-profile',
 		},
 		component: () => import('../views/Profile.vue'),
@@ -111,5 +137,32 @@ const router = new VueRouter({
 		}
 	}
 })
-
+router.beforeEach((to, from, next) => {
+	let role = !store.getters.user? 'merchant' : store.getters.user.role;
+	let accessToken = !store.getters.isLoggedIn? false : store.getters.isLoggedIn;
+	if (to.meta.requiresAuth) {
+		if (!role || !accessToken) {
+		router.push({path: '/sign-in'});
+		} else {
+			if (to.meta.adminAuth) {
+				if (role === "admin") {
+				return next();
+				}else {
+				router.push({path: '/sign-in'});
+				}
+			} else if (to.meta.merchantAuth) {
+				if (role === "merchant") {
+				return next();
+				} else {
+				router.push({path: '/sign-in'});
+				}
+			}else{
+				return next();
+			}
+		}
+	} else {
+		return next();
+	}
+	
+	});
 export default router

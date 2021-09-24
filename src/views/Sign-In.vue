@@ -12,13 +12,15 @@
 			<a-col :span="24" :md="12" :lg="{span: 12, offset: 0}" :xl="{span: 6, offset: 2}" class="col-form">
 				<h1 class="mb-15">Sign In</h1>
 				<h5 class="font-regular text-muted">Enter your email and password to sign in</h5>
-
+				
+				<div class="desc" status="error" v-for="(error, index) in errors" :key="index">
+					<p><a-icon :style="{ color: 'red' }" type="close-circle" /> {{ error[0] }}</p>
+				</div>
 				<!-- Sign In Form -->
 				<a-form
 					id="components-form-demo-normal-login"
-					:form="form"
 					class="login-form"
-					@submit.prevent="handleSubmit"
+					@submit.prevent="userLogin"
 					:hideRequiredMark="true"
 				>
 				<a-form-item class="mb-10">
@@ -27,7 +29,7 @@
 					type="email"
 					class="form-control"
 					placeholder="email"
-					v-model="email"
+					v-model="form.email"
 					>
 					</a-input>
 				</a-form-item>
@@ -38,18 +40,13 @@
 						type="password"
 						class="form-control"
 						placeholder="Password"
-						v-model="password"
+						v-model='form.password'
 					>
 					</a-input>
-					</a-form-item>
-						<a-form-item class="mb-10">
-							<a-switch v-model="rememberMe" /> Remember Me
-						</a-form-item>
-					<a-form-item>
-						<a-button type="primary" block html-type="submit" class="login-form-button">
-							SIGN IN
-						</a-button>
-					</a-form-item>
+					<a-button type="primary" block html-type="submit" class="login-form-button">
+						SIGN IN
+					</a-button>
+				</a-form-item>
 				</a-form>
 				<!-- / Sign In Form -->
 
@@ -75,30 +72,22 @@
 		name:"Sign-In",
 		data() {
 			return {
-				email:'',
-				password:'',
-				// Binded model property for "Sign In Form" switch button for "Remember Me" .
-				rememberMe: true,
+				form: {
+				email: '',
+				password: '',
+				},
+				errors: null
 			}
-		},
-		beforeCreate() {
-			// Creates the form and adds to it component's "form" property.
-			this.form = this.$form.createForm(this, { name: 'normal_login' });
 		},
 		methods: {
-			// Handles input validation after submission.
-			handleSubmit() {
-				const data ={
-					email:this.email,
-					password:this.password
-				};
-				console.log(data) ;
-				// e.preventDefault();
-				// this.form.validateFields((err, values) => {
-				// 	if ( !err ) {
-				// 		console.log('Received values of form: ', values) ;
-				// 	}
-			}
+			userLogin () { 
+				this.$store.dispatch('login', this.form)
+				.then(response => {
+				this.$router.push({name: 'Home'})
+				}).catch(error => {
+					this.errors = error
+				})
+			} 
 		}
 	}
 

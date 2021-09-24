@@ -19,24 +19,38 @@ import DefaultLayout from './layouts/Default.vue'
 import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
-
+import axios from 'axios'
+import store from './store'
 // import './plugins/click-away'
+import { setHeaderToken } from './utils/auth'
 
 import './scss/app.scss';
 
 import vuetify from './plugins/vuetify'
 
+const token = localStorage.getItem('token');
+
+if (token) { 
+  setHeaderToken(token) 
+} 
 Vue.use(Antd);
 
 Vue.config.productionTip = false
-
+axios.defaults.baseURL = 'https://mbocuapi.herokuapp.com/api/'
 // Adding template layouts to the vue components.
 Vue.component("layout-default", DefaultLayout);
 Vue.component("layout-dashboard", DashboardLayout);
 Vue.component("layout-dashboard-rtl", DashboardRTLLayout);
+store.dispatch('get_user', token)
+.then(() => {
+  new Vue({
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
+  }).$mount('#app')
+}).catch((error) => {
+  console.error(error);
+})
 
-new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+

@@ -9,23 +9,25 @@
 		<!-- Sign Up Image And Headings -->
 		<a-col :span="24" :md="12" :lg="{span: 12, offset: 0}" :xl="{span: 6, offset: 2}" class="col-form">
 				<h1 class="mb-5">Sign UP</h1>
-				<p class="text-lg">Use these awesome forms to login or create new account in your project for free.</p>
+				
 		<!-- / Sign Up Image And Headings -->
-		
+		<div class="desc" status="error" v-for="(error, index) in errors" :key="index">
+			<p><a-icon :style="{ color: 'red' }" type="close-circle" /> {{ error[0] }}</p>
+		</div>
 		<!-- Sign Up Form -->
 			<v-form
 				id="components-form-demo-normal-login"
 				:form="form"
 				class="login-form"
-				@submit.prevent="handleSubmit"
+				@submit.prevent="register"
 			>
 				<a-form-item class="mb-10">
-					<label >Username</label>
+					<label >Nama Lengkap</label>
 					<a-input
 					type="text"
 					class="form-control"
-					placeholder="username"
-					v-model="username"
+					placeholder="Ex: Bambang"
+					v-model="name"
 					>
 					</a-input>
 				</a-form-item>
@@ -35,7 +37,7 @@
 					<a-input
 					type="email"
 					class="form-control"
-					placeholder="email"
+					placeholder="Ex: rajendranohan4@gmail.com"
 					v-model="email"
 					>
 					</a-input>
@@ -46,8 +48,8 @@
 					<a-input
 					type="number"
 					class="form-control"
-					placeholder="nomor telfon"
-					v-model="telfon"
+					placeholder="Ex: 85157573144"
+					v-model="phone_num"
 					>
 					</a-input>
 				</a-form-item>
@@ -58,7 +60,7 @@
 						label="Password"
 						type="password"
 						class="form-control"
-						placeholder="Password"
+						placeholder="Ex: *********"
 						v-model="password"
 					>
 					</a-input>
@@ -69,13 +71,10 @@
 					<a-input
 					type="password"
 					class="form-control"
-					placeholder="confirm password"
-					v-model="confirmPassword"
+					placeholder="Ex: *********"
+					v-model="password_confirmation"
 					>
 					</a-input>
-				</a-form-item>
-				<a-form-item class="mb-10">
-					<a-switch v-model="rememberMe" /> Remember Me
 				</a-form-item>
 
 				<a-form-item>
@@ -100,12 +99,12 @@
 		name:"Sign-Up",
 		data() {
 			return {
-				username:'',
+				name:'',
 				email:'',
-				telfon:'',
+				phone_num:'',
 				password:'',
-				confirmPassword:'',
-				rememberMe: true,
+				password_confirmation:'',
+				errors: null
 			}
 		},
 		beforeCreate() {
@@ -113,21 +112,23 @@
 			this.form = this.$form.createForm(this, { name: 'normal_login' });
 		},
 		methods: {
-			// Handles input validation after submission.
-			handleSubmit() {
-				const data ={
-					username:this.username,
-					email:this.email,
-					telfon:this.telfon,
-					password:this.password,
-					confirmPassword:this.confirmPassword
+			register: function () {
+				let data = {
+					name: this.name,
+					email: this.email,
+					phone_num: this.phone_num,
+					password: this.password,
+					password_confirmation: this.password_confirmation,
+					role: 'merchant'
 				};
-				// e.preventDefault();
-				// this.form.validateFields((err, values) => {
-				// 	if ( !err ) {
-						console.log(data) ;
-				
-			}
+				this.$store
+					.dispatch("register", data)
+					.then(response => {
+					this.$router.push({name: 'Home'})
+					}).catch(error => {
+					this.errors = error
+					})
+				}
 		}
 	}
 
