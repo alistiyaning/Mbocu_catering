@@ -8384,6 +8384,11 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+vform@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/vform/-/vform-2.1.1.tgz#3f13e133bfde32383dd472b20a32a5c80675c46c"
+  integrity sha512-wxcAR6x+Nkmd+i2ZyFXN6SUCwiIDVelumy5s4DZUQ2zSbMjOHW4nKz78QmbF7qg9sn9pEJWOjktjU3Y/24pLIw==
+
 vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"

@@ -1,16 +1,3 @@
-/*
-=========================================================
-Mbocu Apps - Vue Ant Design Dashboard - v1.0.0
-=========================================================
-
-Product Page: https://www.creative-tim.com/product/vue-ant-design-dashboard
-Copyright 2021 Cendrawasih Tim (https://www.creative-tim.com)
-Coded by Cendrawasih Tim
-
-=========================================================
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
-*/
-
 import Vue from 'vue'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';

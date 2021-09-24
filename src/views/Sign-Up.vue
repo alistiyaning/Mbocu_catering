@@ -158,7 +158,8 @@ import axios from "axios";
 				telfon:'',
 				password:'',
 				confirmPassword:'',
-			}
+				errors:null
+			};
 
 		},
 		beforeCreate() {
@@ -166,28 +167,46 @@ import axios from "axios";
 			this.form = this.$form.createForm(this, { name: 'normal_login' });
 		},
 		methods: {
-			async SignUp(){
-				try{
-					const response =await axios.post("register",{
-						name:this.username,
-						email:this.email,
-						phone_num:this.telfon,
-						password:this.password,
-						password_confirmation:this.password,
+			// async SignUp(){
+			// 	try{
+			// 		const response =await axios.post("register",{
+			// 			name:this.username,
+			// 			email:this.email,
+			// 			phone_num:this.telfon,
+			// 			password:this.password,
+			// 			password_confirmation:this.password,
 						
-					});
+			// 		});
 
-					if (response.status >= 200 && response.status < 400) {
-						this.$router.push("sign-in");
-						// console.log(response.data);
-					}else {
-						console.log(response.data);
-					}
-				}catch(error) {
-					console.log(error);
-				}
+			// 		if (response.status >= 200 && response.status < 400) {
+			// 			this.$router.push("sign-in");
+			// 			// console.log(response.data);
+			// 		}else {
+			// 			console.log(response.data);
+			// 		}
+			// 	}catch(error) {
+			// 		console.log(error);
+			// 	}
+			// },
+			SignUp: function(){
+				let data ={
+					name:this.username,
+					email:this.email,
+					phone_num:this.telfon,
+					password:this.password,
+					password_confirmation:this.password,
+				};
+				this.$store
+				.dispatch("register",data)
+				.then(Response=>{
+					console.log(response)
+					this.$router.push({
+						name:'SignIn'
+					})
+				}).catch(error=>{
+					this.errors =error.response.data.errors
+				})
 			},
-
 			compareToFirstPassword(rule, value, callback) {
 				const form = this.form;
 				if (value && value !== form.getFieldValue('password')) {

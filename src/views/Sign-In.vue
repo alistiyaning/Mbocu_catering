@@ -27,7 +27,7 @@
 					type="email"
 					class="form-control"
 					placeholder="email"
-					v-model="email"
+					v-model="form.email"
 					>
 					</a-input>
 				</a-form-item>
@@ -38,14 +38,9 @@
 						type="password"
 						class="form-control"
 						placeholder="Password"
-						v-model="password"
+						v-model="form.password"
 					>
 					</a-input>
-					</a-form-item>
-						<a-form-item class="mb-10">
-							<a-switch v-model="rememberMe" /> Remember Me
-						</a-form-item>
-					<a-form-item>
 						<a-button type="primary" block html-type="submit" class="login-form-button">
 							SIGN IN
 						</a-button>
@@ -70,15 +65,16 @@
 </template>
 
 <script>
-
+	import axios from "axios";
 	export default {
 		name:"Sign-In",
 		data() {
 			return {
-				email:'',
-				password:'',
-				// Binded model property for "Sign In Form" switch button for "Remember Me" .
-				rememberMe: true,
+				form:{
+					email:'',
+					password:'',
+				},
+				errors:null
 			}
 		},
 		beforeCreate() {
@@ -86,19 +82,48 @@
 			this.form = this.$form.createForm(this, { name: 'normal_login' });
 		},
 		methods: {
+			// 	async handleSubmit(){
+			// 	try{
+			// 		const response =await axios.post("login",{
+			// 			email:this.email,
+			// 			password:this.password,
+						
+			// 		});
+
+			// 		if (response.status >= 200 && response.status < 400) {
+			// 			this.$router.push("Dashboard");
+			// 			// console.log(response.data);
+			// 		}else {
+			// 			console.log(response.data);
+			// 		}
+			// 	}catch(error) {
+			// 		console.log(error);
+			// 	}
+			// },
+
+			handleSubmit () { 
+			this.$store.dispatch('login', this.form)
+				.then(response => {
+       			 console.log(response)
+  			this.$router.push({name: 'Home'})
+     		 }).catch(error => {
+        	this.errors = error.response.data.errors
+			})
+			} 
+    
 			// Handles input validation after submission.
-			handleSubmit() {
-				const data ={
-					email:this.email,
-					password:this.password
-				};
-				console.log(data) ;
+			// handleSubmit() {
+			// 	const data ={
+			// 		email:this.email,
+			// 		password:this.password
+			// 	};
+			// 	console.log(data) ;
 				// e.preventDefault();
 				// this.form.validateFields((err, values) => {
 				// 	if ( !err ) {
 				// 		console.log('Received values of form: ', values) ;
 				// 	}
-			}
+			// }
 		}
 	}
 
