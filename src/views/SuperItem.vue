@@ -1,176 +1,168 @@
-<!-- 
-	This is the tables page, it uses the dashboard layout in: 
-	"./layouts/Dashboard.vue" .
- -->
-
 <template>
-	<div>
+  <div>
+    
+		<a-row :gutter="24" type="flex" align="stretch">
+			<!-- Table -->
+			<a-col :span="24" :lg="24" class="mb-24">
 
-		<!-- Authors Table -->
-		<a-row :gutter="24" type="flex">
-
-			<!-- Authors Table Column -->
-			<a-col :span="24" class="mb-24">
-
-				<!-- Authors Table Card -->
-				<CardItemTable
-					:data="table1Data"
-					:columns="table1Columns"
-				></CardItemTable>
-				<!-- / Authors Table Card -->
-
-			</a-col>
-			<!-- / Authors Table Column -->
-
+        <a-card hoverable style="width: 100%">
+        <!-- Table -->
+        <a-table :columns="columns" :data-source="data">
+          <a slot="name" slot-scope="text">{{ text }}</a>
+          <span slot="action" slot-scope="text">
+            
+            <!-- delete button -->
+			<a-button type="default" @click="detail(text)">
+			Detail
+			</a-button>
+			<a-divider type="vertical" />
+            <!-- delete button -->
+            <a-button type="danger" @click="deleteConfirm(text)">
+              Delete
+            </a-button>
+          
+          </span>
+        </a-table>
+        <!-- Table End -->
+        </a-card>
+        </a-col>
 		</a-row>
-		<!-- / Authors Table -->
-
-	</div>
+    
+    <!-- Modal Detail -->
+		<a-modal v-model="visibleDetail" title="Detail Item" >
+			<a-row type="flex"  >
+			<a-col :flex="2" class="mb-10" >
+				<center>
+				<a-avatar shape="square" src="https://images.indianexpress.com/2020/06/online-classes.jpg" :size="200" />
+				</center>
+			
+				<div>
+				<h5 class="font-semibold m-0">{{dataDetail.name}}</h5>
+				<p class="mt-0">{{dataDetail.merchant.name}}0</p>
+				<p>Deskripsi:</p>
+				<p>{{dataDetail.desc}}</p>
+				</div>
+			</a-col>
+			</a-row>
+		</a-modal>
+		<!-- End Modal Detail -->
+    
+  </div>
+  
 </template>
-
 <script>
+import ItemDataService from "../services/ItemDataService";
+const columns = [
+  {
+    title: 'NAMA',
+    dataIndex: 'name',
+    key: 'name',
+    width: 400
+  },
+  {
+    title: 'NAMA MERCHANT/TOKO',
+    dataIndex: 'merchant.name',
+    key: 'merchant.name',
+    width: 400
+    
+  },
+  {
+    title: 'STATUS',
+    dataIndex: 'status',
+    key: 'status',
+    width: 300
+    
+  },
+  {
+    title: 'ACTION',
+	dataIndex: 'id',
+    key: 'action',
+     scopedSlots: { customRender: 'action' },
+  },
+];
 
-	// "Authors" table component.
-	import CardItemTable from '../components/Cards/CardItemSuperTable' ;
 
-	// "Projects" table component.
-	import CardProjectTable2 from '../components/Cards/CardProjectTable2' ;
-	
-	// "Authors" table list of columns and their properties.
-	const table1Columns = [
-		{
-			title: 'AUTHOR',
-			dataIndex: 'author',
-			scopedSlots: { customRender: 'author' },
-		},
-		{
-			title: 'FUNCTION',
-			dataIndex: 'func',
-			scopedSlots: { customRender: 'func' },
-		},
-		{
-			title: 'STATUS',
-			dataIndex: 'status',
-			scopedSlots: { customRender: 'status' },
-		},
-		{
-			title: 'EMPLOYED',
-			dataIndex: 'employed',
-			class: 'text-muted',
-		},
-		{
-			title: '',
-			scopedSlots: { customRender: 'editBtn' },
-			width: 50,
-		},
-	];
-
-	// "Authors" table list of rows and their properties.
-	const table1Data = [
-		{
-			key: '1',
-			author: {
-				avatar: 'images/face-2.jpg',
-				name: 'Michael John',
-				email: 'michael@mail.com',
-			},
-			func: {
-				job: 'Manager',
-				department: 'Organization',
-			},
-			status: 1,
-			employed: '23/04/18',
-		},
-		{
-			key: '2',
-			author: {
-				avatar: 'images/face-3.jpg',
-				name: 'Alexa Liras',
-				email: 'alexa@mail.com',
-			},
-			func: {
-				job: 'Programator',
-				department: 'Developer',
-			},
-			status: 0,
-			employed: '23/12/20',
-		},
-		{
-			key: '3',
-			author: {
-				avatar: 'images/face-1.jpg',
-				name: 'Laure Perrier',
-				email: 'laure@mail.com',
-			},
-			func: {
-				job: 'Executive',
-				department: 'Projects',
-			},
-			status: 1,
-			employed: '13/04/19',
-		},
-		{
-			key: '4',
-			author: {
-				avatar: 'images/face-4.jpg',
-				name: 'Miriam Eric',
-				email: 'miriam@mail.com',
-			},
-			func: {
-				job: 'Marketing',
-				department: 'Organization',
-			},
-			status: 1,
-			employed: '03/04/21',
-		},
-		{
-			key: '5',
-			author: {
-				avatar: 'images/face-5.jpeg',
-				name: 'Richard Gran',
-				email: 'richard@mail.com',
-			},
-			func: {
-				job: 'Manager',
-				department: 'Organization',
-			},
-			status: 0,
-			employed: '23/03/20',
-		},
-		{
-			key: '6',
-			author: {
-				avatar: 'images/face-6.jpeg',
-				name: 'John Levi',
-				email: 'john@mail.com',
-			},
-			func: {
-				job: 'Tester',
-				department: 'Developer',
-			},
-			status: 0,
-			employed: '14/04/17',
-		},
-	];
-	
-	
-	export default ({
-		components: {
-			CardItemTable,
-		},
-		data() {
-			return {
-				// Associating "Authors" table data with its corresponding property.
-				table1Data: table1Data,
-
-				// Associating "Authors" table columns with its corresponding property.
-				table1Columns: table1Columns,
-
-			}
-		},
-	})
-
+export default {
+	data() {
+		return {
+		loading: false,
+		visibleEdit: false,
+		visibleDetail: false,
+		visibleAdd: false,
+		data: [],
+		columns,
+		currentItem: null,
+		currentIndex: -1,
+		title: "",
+		dataDetail: [],
+		merchant_id:'',
+		errors: null,
+		};
+  	},
+  methods:{
+    
+    deleteConfirm(id){
+	if(confirm("Do you really want to delete?")){
+		ItemDataService.delete(id)
+			.then(response => {
+				this.retrieveItems();
+			})
+			.catch(e => {
+			console.log(e.response);
+			});
+		}
+    },
+	detail(id){
+		console.log(id);
+		ItemDataService.get(id)
+			.then(response => {
+				this.visibleDetail = true;
+				this.dataDetail = response.data.data[0];
+			})
+			.catch(e => {
+			console.log(e.response);
+			});
+    },
+    showAdd() {
+      this.visibleAdd = true;
+    },
+	handleChange(value) {
+      this.role = value
+	  
+    },
+    AddItem: function () {
+		console.log('cek');
+	let data = {
+		name: this.name,
+		email: this.email,
+		phone_num: this.phone_num,
+		password: this.password,
+		password_confirmation: this.password_confirmation,
+		role: this.role
+	};
+	console.log(data);
+	ItemDataService.create(data)
+        .then(response => {
+          this.retrieveItems();
+		  this.visibleAdd = false;
+        })
+        .catch(e => {
+          this.errors = e.response.data.data;
+        });
+	},
+    retrieveItems() {
+      ItemDataService.getAll()
+        .then(response => {
+          this.data = response.data.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+  },
+  
+  mounted() {
+    this.retrieveItems();
+  },
+};
 </script>
-
-<style lang="scss">
-</style>

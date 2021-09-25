@@ -61,7 +61,14 @@
 						<span class="label">Item</span>
 					</router-link>
 				</a-menu-item>
-				
+				<a-menu-item v-if="user.role == 'merchant'">
+					<router-link to="/merchant_merchant">
+						<span class="icon">
+							<a-icon type="skin" theme="filled" :style="{ fontSize: '16px',}" class="m-0"/>
+						</span>
+						<span class="label">Merchant</span>
+					</router-link>
+				</a-menu-item>
 				<a-menu-item class="menu-item-header">
 					Account Pages
 				</a-menu-item>

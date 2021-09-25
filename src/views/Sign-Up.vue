@@ -17,7 +17,6 @@
 		<!-- Sign Up Form -->
 			<v-form
 				id="components-form-demo-normal-login"
-				:form="form"
 				class="login-form"
 				@submit.prevent="register"
 			>

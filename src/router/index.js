@@ -139,7 +139,9 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
 	let role = !store.getters.user? 'merchant' : store.getters.user.role;
+	let merchant = !store.getters.user.merchant? null : store.getters.user.merchant;
 	let accessToken = !store.getters.isLoggedIn? false : store.getters.isLoggedIn;
+	console.log(merchant);
 	if (to.meta.requiresAuth) {
 		if (!role || !accessToken) {
 		router.push({path: '/sign-in'});
@@ -152,7 +154,12 @@ router.beforeEach((to, from, next) => {
 				}
 			} else if (to.meta.merchantAuth) {
 				if (role === "merchant") {
-				return next();
+					
+					if(!merchant){
+						router.push({path: '/merchant_merchant'});
+					}else{
+						return next();
+					}
 				} else {
 				router.push({path: '/sign-in'});
 				}

@@ -13,11 +13,11 @@
         <!-- Table -->
         <a-table :columns="columns" :data-source="data">
           <a slot="name" slot-scope="text">{{ text }}</a>
-          <span slot="action" slot-scope="">
+          <span slot="action" slot-scope="text">
             
             
             <!-- delete button -->
-            <a-button type="danger" @click="deleteConfirm">
+            <a-button type="danger" @click="deleteConfirm(text)">
               Delete
             </a-button>
           
@@ -29,11 +29,14 @@
 		</a-row>
     
     <!-- Modal Add -->
-    <a-modal v-model="visibleAdd" title="Add new " @ok="handleAddOk">
+    <a-modal v-model="visibleAdd" title="Add new " @ok.prevent="AddUser">
+		<div class="desc" status="error" v-for="(error, index) in errors" :key="index">
+			<p><a-icon :style="{ color: 'red' }" type="close-circle" /> {{ error[0] }}</p>
+		</div>
       <v-form
 				id="components-form-demo-normal-login"
-				:form="form"
 				class="login-form"
+				@submit.prevent="AddUser"
 				
 			>
 				<a-form-item class="mb-10">
@@ -41,17 +44,32 @@
 					<a-input
 					type="text"
 					class="form-control"
-					placeholder="nama"
+					placeholder="Ex: Bambang"
+					v-model="name"
 					>
 					</a-input>
 				</a-form-item>
-
+				<a-form-item class="mb-10">
+					<label >Role</label>
+					<a-select class="form-control" default-value="Select Role"  @change="handleChange">
+						<a-select-option value="admin">
+							Super Admin
+						</a-select-option>
+						<a-select-option value="merchant">
+							Merchant Admin
+						</a-select-option>
+						<a-select-option value="user">
+							User
+						</a-select-option>
+					</a-select>
+				</a-form-item>
 				<a-form-item class="mb-10">
 					<label >Email</label>
 					<a-input
 					type="email"
 					class="form-control"
-					placeholder="email"
+					placeholder="Ex: rajendranohan4@gmail.com"
+					v-model="email"
 					>
 					</a-input>
 				</a-form-item>
@@ -61,18 +79,20 @@
 					<a-input
 					type="number"
 					class="form-control"
-					placeholder="nomor telfon"
+					placeholder="Ex: 85157573144"
+					v-model="phone_num"
 					>
 					</a-input>
 				</a-form-item>
 
 				<a-form-item class="mb-5">
-					<label >Password</label>
+					<label >password</label>
 					<a-input
 						label="Password"
 						type="password"
 						class="form-control"
-						placeholder="Password"
+						placeholder="Ex: *********"
+						v-model="password"
 					>
 					</a-input>
 				</a-form-item>
@@ -82,7 +102,8 @@
 					<a-input
 					type="password"
 					class="form-control"
-					placeholder="confirm password"
+					placeholder="Ex: *********"
+					v-model="password_confirmation"
 					>
 					</a-input>
 				</a-form-item>
@@ -101,31 +122,46 @@ const columns = [
     title: 'NAMA',
     dataIndex: 'name',
     key: 'name',
-    width: 400
+    width: 250
   },
   {
     title: 'EMAIL',
     dataIndex: 'email',
     key: 'email',
-    width: 400
+    width: 300
     
   },
   {
     title: 'NAMA MERCHANT/TOKO',
     dataIndex: 'merchant.name',
     key: 'merchant.name',
-    width: 200
+    width: 250
     
   },
   {
     title: 'NOMOR TELP',
     dataIndex: 'phone_num',
     key: 'phone_num',
-    width: 200
+    width: 175
+    
+  },
+  {
+    title: 'ROLE',
+    dataIndex: 'role',
+    key: 'role',
+    width: 100
+    
+  },
+  {
+    title: 'STATUS',
+    dataIndex: 'status',
+    key: 'status',
+    width: 125
     
   },
   {
     title: 'ACTION',
+	dataIndex: 'id',
     key: 'action',
      scopedSlots: { customRender: 'action' },
   },
@@ -145,56 +181,55 @@ export default {
 		currentIndex: -1,
 		title: "",
 		form: null,
+		name:'',
+		email:'',
+		phone_num:'',
+		password:'',
+		password_confirmation:'',
+		role: '',
+		errors: null,
 		};
   	},
   methods:{
     
-    deleteConfirm(){
-      this.$confirm({
-        title: 'Do you Want to delete these items?',
-        content: h => <div style="color:red;">The data can remove permanently</div>,
-        onOk() {
-          console.log('OK');
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
-        class: 'test',
-      });
-    },
-    showEdit(){
-      this.visibleEdit = true;
-      console.log('edit click');
-    },
-    showDetail(){
-      this.visibleDetail = true;
+    deleteConfirm(id){
+	if(confirm("Do you really want to delete?")){
+		UserDataService.delete(id)
+			.then(response => {
+				this.retrieveUsers();
+			})
+			.catch(e => {
+			console.log(e.response);
+			});
+		}
     },
     showAdd() {
       this.visibleAdd = true;
     },
-    handleEditOk(e) {
-      this.visibleEdit = false;
+	handleChange(value) {
+      this.role = value
+	  
     },
-    handleEditCancel(e) {
-      this.visibleEdit = false;
-    },
-    handleAddOk(e) {
-    this.visibleAdd = false;
-    },
-    handleAddOk(e) {
-    console.log(e);
-    this.visibleAdd = false;
-    },
-
-    // handle form
-    handleSubmitAdd(e) {
-      e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values);
-        }
-      });
-    },
+    AddUser: function () {
+		console.log('cek');
+	let data = {
+		name: this.name,
+		email: this.email,
+		phone_num: this.phone_num,
+		password: this.password,
+		password_confirmation: this.password_confirmation,
+		role: this.role
+	};
+	console.log(data);
+	UserDataService.create(data)
+        .then(response => {
+          this.retrieveUsers();
+		  this.visibleAdd = false;
+        })
+        .catch(e => {
+          this.errors = e.response.data.data;
+        });
+	},
     retrieveUsers() {
       UserDataService.getAll()
         .then(response => {
