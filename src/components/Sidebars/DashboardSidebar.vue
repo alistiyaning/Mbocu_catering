@@ -50,7 +50,7 @@
 						<span class="label">Merchant</span>
 					</router-link>
 				</a-menu-item>
-				<a-menu-item v-if="user.role == 'merchant'">
+				<a-menu-item v-if="user.role == 'merchant'&& !(user.merchant == null)">
 					<router-link to="/merchant_Item">
 						<span class="icon">
 							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

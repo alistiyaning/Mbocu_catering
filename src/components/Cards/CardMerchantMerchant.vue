@@ -16,13 +16,19 @@ import {
   MglNavigationControl,
   MglGeolocateControl,
 } from "vue-mapbox";
-
+import { mapGetters } from 'vuex';
 export default {
   components: {
     MglMap,
     MglNavigationControl,
     MglGeolocateControl
   },
+  computed: {
+			 ...mapGetters({ 
+				isLoggedIn: 'isLoggedIn',
+				user: 'user',
+			}),
+	},
   data() {
     return {
       accessToken: "pk.eyJ1IjoicmFqZW5kcmFub2hhbiIsImEiOiJja2VzbzZ6MWMwN2VrMnlvMDc5MnZ2cnR5In0.0HDrz_L7f_GLReneRLOwjQ", // your access token. Needed if you using Mapbox maps

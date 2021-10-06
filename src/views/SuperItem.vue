@@ -38,7 +38,6 @@
 			
 				<div>
 				<h5 class="font-semibold m-0">{{dataDetail.name}}</h5>
-				<p class="mt-0">{{dataDetail.merchant.name}}0</p>
 				<p>Deskripsi:</p>
 				<p>{{dataDetail.desc}}</p>
 				</div>

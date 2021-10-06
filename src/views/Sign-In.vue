@@ -80,14 +80,18 @@
 			}
 		},
 		methods: {
-			userLogin () { 
+			
+			userLogin () {
 				this.$store.dispatch('login', this.form)
 				.then(response => {
 				this.$router.push({name: 'Home'})
 				}).catch(error => {
 					this.errors = error
 				})
-			} 
+			},
+			
+			
+			
 		}
 	}
 
